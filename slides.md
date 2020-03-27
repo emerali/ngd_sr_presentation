@@ -14,7 +14,7 @@ class:
 
 ---
 
-## Outline
+# Outline
 
 - Derivation of NGD
 - NGD in unsupervised learning
@@ -22,7 +22,7 @@ class:
 
 ---
 
-## Some definitions
+# Some definitions
 
 - $\mathcal{W}$ is our parameter space
 - $\mathcal{H}$ is our space of probability functions
@@ -35,7 +35,7 @@ class:
 
 ---
 
-## NGD Derivation
+# NGD Derivation
 
 - Given a functional $F: \mathcal{H} \to \mathbb{R}$, want to perform an iterative optimization procedure
 
@@ -169,7 +169,7 @@ $$
 
 ---
 
-## Example: Unsupervised Learning
+# Example: Unsupervised Learning
 
 Given a model, $p_\theta(x)$, and samples drawn from a target distribution $q(x)$, find parameters $\theta \in \mathcal{W}$ which minimize the KL divergence $D(q || p_\theta)$
 
@@ -216,4 +216,109 @@ Still need to deal with the fact that this matrix is HUGE. We'll discuss approxi
 
 ---
 
-## The Quantum Case
+# The Quantum Case
+
+We have a variational trial state $\vert\psi_\theta\rangle$ with $p$ parameters.
+
+Nudging the parameters $\theta \to \theta + \delta\theta$:
+
+$$
+\psi\prime(x; \theta) = \psi(x; \theta) + \sum_{k=1}^p \delta\theta_k \frac{\partial}{\partial\theta_k}\psi(x; \theta)
+$$
+
+Let $O_k\vert x \rangle = \left(\frac{\partial}{\partial\theta_k}\ln\psi(x; \theta)\right)\vert x \rangle$, $O_0 = 1$, $\delta\theta_0 = 1$
+
+Then $\vert \psi\prime \rangle = \sum_{k=0}^p \delta\theta_k O_k \vert \psi\rangle$
+
+Let $\delta\theta_0$ vary freely, remembering to normalize parameter shifts later: $\delta\theta_k \to \delta\theta_k/\delta\theta_0$
+
+---
+
+Let $P$ be a projection operator st
+$$PO_k\vert\psi\rangle = O_k\vert\psi\rangle \quad \forall k = 0,1,\ldots,p$$
+
+Hence $\vert\psi\prime\rangle = P(\Lambda - H)\vert\psi\rangle$
+
+where $\Lambda$ is selected large enough that $\langle \psi\prime\vert H \vert \psi\prime \rangle$ < $\langle \psi\vert H \vert \psi \rangle$
+
+Take overlap wrt states $\langle \psi \vert O_k$
+
+$$\langle \psi \vert O_k \vert\psi\prime\rangle = \langle \psi \vert O_k  P(\Lambda - H)\vert\psi\rangle$$
+
+Expand $\vert\psi\prime\rangle$
+
+$$
+\begin{aligned}
+\sum_{l=0}^p \delta\theta_l\langle \psi \vert O_k O_l \vert\psi\rangle &= \langle \psi \vert O_k  P(\Lambda - H)\vert\psi\rangle \\
+\sum_{l=0}^p \delta\theta_l s_{kl} &= f_k
+\end{aligned}
+$$
+
+---
+
+We typically use MC sampling from the trial state to determine $s_{kl}, f_k$.
+
+Note, $f_0 = \delta\theta_0 + \sum_{l=1}^p \delta\theta_l s_{kl}$
+
+$\delta\theta_0$ has a direct dependence on $\Lambda$, which affects parameter convergence rate. To fix $\Lambda$ we employ a trick similar to what we did for NGD. Penalize excessive changes to the state:
+
+$$\Delta \psi = \vert \psi\prime - \psi \vert^2 = \sum_{l,k > 0} \delta\theta_k \overline{s_{kl}} \delta\theta_l$$
+
+where $\overline{s_{kl}} = s_{kl} - s_{0k}s_{0l}, \forall l,k > 0$
+
+Introduce a Lagrange Multiplier $\mu$, our new objective function is: $E + \mu \Delta\psi$. The solution becomes:
+
+$$\delta\theta_k = \frac{1}{\mu}\sum_{l=1}^p (\overline{s}^{-1})_{kl} \overline{f}_l \qquad\text{where:}\quad \overline{f}_l = -\frac{\partial E}{\partial \theta_l}$$
+
+---
+
+# Example: Positive Wavefunction:
+
+$$\vert \psi \rangle = \sum_x \sqrt{p(x)}\vert x\rangle$$
+
+Matrix $s$ becomes:
+
+$$
+\begin{aligned}
+s &= \langle (\partial_i \ln\psi) (\partial_j \ln\psi) \rangle - \langle (\partial_i \ln\psi)\rangle\langle(\partial_j \ln\psi) \rangle \\
+&= \frac{1}{4}\mathbb{E}_p\left\lbrack (\partial_i \ln p) (\partial_j \ln p) \right\rbrack
+-
+\frac{1}{4}\mathbb{E}_p\left\lbrack (\partial_i \ln p) \right\rbrack \mathbb{E}_p\left\lbrack(\partial_j \ln p) \right\rbrack \\
+&= \frac{1}{4}\mathbb{E}_p\left\lbrack (\partial_i \ln p) (\partial_j \ln p) \right\rbrack - 0\\
+&= \frac{1}{4}G
+\end{aligned}
+$$
+
+---
+
+# Summary
+
+- We derived NGD using the method of Lagrange Multipliers
+
+- We considered the case of unsupervised learning and compared NGD to the standard 2nd-order optimization procedure
+
+- We analysed the emergence of a similar technique for the optimization of quantum wavefunctions, and showed it to be equivalent to NGD for the case of a positive wavefunction
+
+---
+
+# Next Time:
+
+We'll look at approximations to the Fisher Information Matrix, specifically, the Kronecker Factorization (KFAC) and the Eigenvalue-corrected Kronecker Factorization (EKFAC).
+
+---
+
+# Thank you
+
+---
+
+# References
+
+Amari, Shun-Ichi. "Natural gradient works efficiently in learning." Neural computation 10.2 (1998): 251-276.
+
+Bottou, L., F. E. Curtis, and J. Nocedal. "Optimization methods for large-scale machine learning. arXiv 2016." arXiv preprint arXiv:1606.04838.
+
+Hoffman, Matthew D., et al. "Stochastic variational inference." The Journal of Machine Learning Research 14.1 (2013): 1303-1347.
+
+Park, Chae-Yeun, and Michael J. Kastoryano. "On the geometry of learning neural quantum states." arXiv preprint arXiv:1910.11163 (2019).
+
+Sorella, Sandro, Giuseppe E. Santoro, and Federico Becca. "SISSA Lecture notes on Numerical methods for strongly correlated electrons." (2010).
