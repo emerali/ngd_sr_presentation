@@ -66,7 +66,7 @@ tl;dr if you can't draw samples from your model, don't be surprised if precondit
 _class: default
 _footer: '(Kunstner et al. 2019)'
 -->
-![bg contain](efim_plot.png)
+![bg contain](imgs/efim_plot.png)
 
 ---
 
@@ -153,7 +153,7 @@ img[alt~="center"] {
 }
 </style>
 
-![center](kfac_indep_approx.png)
+![center](imgs/kfac_indep_approx.png)
 
 ---
 
@@ -226,7 +226,7 @@ Note, however, that the inverse of the block tri-diagonal form $\hat{G}$ is a mu
 _class: default
 _footer: '(Martens and Grosse, 2016)'
 -->
-![bg contain](kfac_block_approx.png)
+![bg contain](imgs/kfac_block_approx.png)
 
 ---
 
@@ -234,7 +234,7 @@ _footer: '(Martens and Grosse, 2016)'
 _class: default
 _footer: '(Martens and Grosse, 2016)'
 -->
-![bg contain](kfac_block_approx_inv.png)
+![bg contain](imgs/kfac_block_approx_inv.png)
 
 ---
 
@@ -295,7 +295,7 @@ _class: default
 _footer: '(George at al. 2018)'
 -->
 
-![bg 40%](ekfac_cartoon.png)
+![bg 40%](imgs/ekfac_cartoon.png)
 
 ---
 
@@ -318,7 +318,7 @@ _class: default
 _footer: '(George at al. 2018)'
 -->
 
-![bg contain](ekfac_corr_matrices.png)
+![bg contain](imgs/ekfac_corr_matrices.png)
 
 ---
 
@@ -327,7 +327,7 @@ _class: default
 _footer: '(George at al. 2018)'
 -->
 
-![bg contain](ekfac_mnist.png)
+![bg contain](imgs/ekfac_mnist.png)
 
 ---
 
