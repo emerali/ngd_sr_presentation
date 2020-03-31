@@ -1,6 +1,6 @@
-# ngd_sr_presentation
+# NGD/SR and KFAC/EKFAC presentations
 
-plots for 2nd presentation taken from: 
+plots/figures for KFAC presentation taken from: 
 
 https://arxiv.org/abs/1905.12558
 
