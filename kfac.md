@@ -13,7 +13,7 @@ _paginate: false
 
 ---
 
-# Outline
+## Outline
 
 - Quick review of NGD
 - Sidebar: Limitations of using the Empirical Fisher
@@ -22,7 +22,7 @@ _paginate: false
 
 ---
 
-# Review of Natural Gradient Descent
+## Review of Natural Gradient Descent
 
 Given a functional $F$, standard SGD updates take the form:
 
@@ -51,7 +51,7 @@ $$
 
 ---
 
-# Sidebar: Limitations of using the Empirical FIM
+## Sidebar: Limitations of using the Empirical FIM
 
 Recall that the EFIM differs from the true FIM in the distribution over which the expectation is computed
 
@@ -70,7 +70,7 @@ _footer: '(Kunstner et al. 2019)'
 
 ---
 
-# Overview of KFAC
+## Overview of KFAC
 
 Let's consider $G$ for a deep feed-forward net&mdash;ignoring all considerations of what distribution we're computing expectations over
 
@@ -124,8 +124,7 @@ G_{i,j} &= \mathbb{E}\left\lbrack
 \end{aligned}
 $$
 
-#### 1st Approximation: (outer products of) layer inputs and gradients are statistically independent
-
+### 1st Approximation: (outer products of) layer inputs and gradients are statistically independent
 
 $$
 G_{i,j} \approx \mathbb{E}\left\lbrack
@@ -179,7 +178,7 @@ This is called a Khatri-Rao product. There is not yet an efficient method to inv
 
 ---
 
-#### 2nd Approximation: $\tilde{G} \approx$ block-diagonal
+### 2nd Approximation: $\tilde{G} \approx$ block-diagonal
 
 This means we're assuming that covariances *between* layers are negligible. Call $\breve{G}$ the block-diagonal approximation to $\tilde{G}$:
 
@@ -214,7 +213,7 @@ $$
 
 ---
 
-#### Alternative 2nd Approximation: $\tilde{G} \approx$ block-tridiagonal
+### Alternative 2nd Approximation: $\tilde{G} \approx$ block-tridiagonal
 
 We're assuming that covariances between adjacent layers are no longer negligible. Inverting this is much more complicated so we won't discuss this further.
 
@@ -244,7 +243,7 @@ This is part of the motivation for EKFAC (Eigenvalue-corrected KFAC), which allo
 
 ---
 
-# Overview of EKFAC
+## Overview of EKFAC
 
 EKFAC makes use of the block-diagonal version of KFAC, $\breve{G}$. Focus on a single block of $\breve{G}$:
 
@@ -331,6 +330,24 @@ _footer: '(George at al. 2018)'
 
 ---
 
-# Conclusion
+## Summary
 
--
+- We approximated the Fisher Information Matrix by:
+  - Assuming statistical independence between layer inputs and parameter gradients, yielding a Kronecker product
+  - Assuming no interlayer covariances i.e. that the FIM is approximately block-diagonal
+
+- We then derived EKFAC, which refines the first approximation, and also allows us to perform cheap partial updates to the approximated FIM
+
+---
+
+## Thank you
+
+---
+
+## References
+
+George, Thomas, et al. "Fast approximate natural gradient descent in a kronecker factored eigenbasis." Advances in Neural Information Processing Systems. 2018.
+
+Kunstner, Frederik, Philipp Hennig, and Lukas Balles. "Limitations of the empirical Fisher approximation for natural gradient descent." Advances in Neural Information Processing Systems. 2019.
+
+Martens, James, and Roger Grosse. "Optimizing neural networks with kronecker-factored approximate curvature." International conference on machine learning. 2015.
